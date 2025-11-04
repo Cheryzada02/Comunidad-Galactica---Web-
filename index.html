@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidad Galactica | HOME</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bg-video"></div>
+
+    <nav> 
+        <div class="nav-links">
+            <a href="#home">Inicio</a>
+            <a href="#features">Info</a>
+            <a href="#staff">Staff</a>
+            <a href="#discord">Discord</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <h1>Comunidad Galactica</h1>
+        
+        <div class="server-status">
+            <!-- ✅ Online Members (API) -->
+            <div class="status-item">
+                <div class="number" id="players">Cargando...</div>
+                <div class="label"><span class="online-indicator"></span>ONLINE</div>
+            </div>
+
+            <!-- ✅ Total Members (API) -->
+            <div class="status-item">
+                <div class="number" id="totalMembers">Cargando...</div>
+                <div class="label">MIEMBROS</div>
+            </div>
+
+            <!-- ✅ Active Bots (API) -->
+            <div class="status-item">
+                <div class="number" id="bots">Cargando...</div>
+                <div class="label">BOTS ACTIVOS</div>
+            </div>
+        </div>
+
+        <a href="https://discord.gg/Txyj9HMVVt" target="_blank" class="cta-button">UNETE A DISCORD</a>
+    </section>
+
+    <section id="features">
+        <h2>Unete a esta gran familia.</h2>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🌌</div>
+                <h3>Amplia comunidad.</h3>
+                <p>Miembros de diferentes parte de la galaxia que comparten la misma pasion por los videojuego, desarrollo de apps y scripts, y muchos momentos de diversion.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎮</div>
+                <h3>Gran variedad de juegos.</h3>
+                <p>Desde Minecraft hasta GTA V, ofrecemos una amplia gama de juegos para todos los gustos.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>Bots personalidos.</h3>
+                <p>Contamos con una variedad de bots creados por la comunidad galactica para mejorar tu experiencia en el servidor.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Staff 24/7</h3>
+                <p>Un equipo de moderadores y administradores siempre disponible para ayudar y garantizar un ambiente seguro.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎖️</div>
+                <h3>Premios por actividad.</h3>
+                <p>Premios para los miembros más activos de la comunidad.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📹</div>
+                <h3>Incentivos para streamers</h3>
+                <p>Ofrecemos beneficios exclusivos para streamers que deseen compartir su contenido en nuestra comunidad.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="staff">
+        <h2>PRONTO...</h2>
+        <div class="staff-grid">
+            <div class="card">
+        <div class="card-info">
+            <p class="title">Explorador Estelar</p>
+        </div>
+        </div>
+                <div class="card">
+        <div class="card-info">
+            <p class="title">Comandante Cosmico</p>
+        </div>
+        </div>
+                <div class="card">
+        <div class="card-info">
+            <p class="title">Legado Galactico</p>
+        </div>
+        </div>
+        
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Comunidad Galactica. Todos los derechos reservados.</p>
+        <p style="margin-top: 10px; color: #666;">No estamos afiliado a ninguno de los juegos presentados en la comunidad.</p>
+    </footer>
+
+    <!-- ===== Script integrado ===== -->
+    <script>
+        const BOT_API_URL = 'https://cg-galactusbot.onrender.com/api/stats';
+
+        async function fetchDiscordStats() {
+            try {
+                const response = await fetch(BOT_API_URL);
+                if (!response.ok) throw new Error('Failed to fetch stats');
+                const data = await response.json();
+
+                document.getElementById('players').textContent = data.onlineMembers || 0;
+                document.getElementById('totalMembers').textContent = data.totalMembers || 0;
+                document.getElementById('bots').textContent = data.activeBots || 0;
+            } catch (error) {
+                console.error('Error fetching Discord stats:', error);
+                document.getElementById('players').textContent = '-';
+                document.getElementById('totalMembers').textContent = '-';
+                document.getElementById('bots').textContent = '-';
+            }
+        }
+
+        fetchDiscordStats();
+        setInterval(fetchDiscordStats, 15000); // refrescar cada 15s
+
+        // Smooth scroll navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
