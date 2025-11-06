@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tienda | Comunidad Galáctica</title>
+  <meta name="description" content="Tienda de Comunidad Galáctica: configura y compra servicios para tus redes. Precios claros, carrito y cálculo automático.">
+
+  <!-- CSS específico de esta página -->
+  <link rel="stylesheet" href="tienda.css">
+</head>
+<body>
+  <header class="cg-header">
+    <nav class="cg-nav">
+      <a class="cg-brand" href="index.html" aria-label="Volver al inicio">
+        <span class="cg-brand-icon" aria-hidden="true">CG</span>
+        <span class="cg-brand-text">Comunidad Galáctica</span>
+      </a>
+      <div class="cg-menu">
+        <a href="index.html#home" aria-current="page">Inicio</a>
+        <a href="index.html#discord">Discord</a>
+        <a href="index.html#features">Info</a>
+        <a href="index.html#staff">Staff</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="cg-container">
+    <h1 class="cg-title">Tienda</h1>
+    <p class="hint">
+      Elige la plataforma y verás <strong>todas</strong> las opciones en tarjetas. Selecciona una, indica la cantidad y el precio se calcula automáticamente.
+      ETA habitual <span class="eta">1–7 días</span>. Los pagos por PayPal incluyen comisión.
+    </p>
+
+    <div class="grid">
+      <!-- Configurador -->
+      <section class="card">
+        <label>Plataforma</label>
+        <select id="platform">
+          <option value="">— Selecciona —</option>
+          <option value="instagram">Instagram</option>
+          <option value="tiktok">TikTok</option>
+          <option value="youtube">YouTube</option>
+          <option value="twitch">Twitch</option>
+          <option value="kick">Kick</option>
+          <option value="amazon">Amazon</option>
+          <option value="discord">Discord</option>
+          <option value="spotify">Spotify</option>
+        </select>
+
+        <div id="servicesWrap" class="mt-6"></div>
+
+        <div class="calc-grid mt-8">
+          <label id="labelUrl"><span id="contactLabel">URL del perfil (referencia)</span>
+            <input id="profileUrl" type="url" placeholder="https://instagram.com/tu_usuario">
+          </label>
+          <label id="labelWa" class="hidden">Contacto WhatsApp (requerido para Amazon)
+            <input id="waPhone" type="tel" placeholder="+1 809 000 0000">
+          </label>
+          <label>Cantidad solicitada
+            <input id="quantity" type="number" min="1000" step="100" placeholder="Ej: 1000">
+          </label>
+        </div>
+
+        <div class="calc-out">
+          <label>Duración estimada
+            <input id="etaDays" type="text" value="1–7 días" readonly>
+          </label>
+          <label>Precio estimado
+            <input id="pricePreview" type="text" class="price-big" value="USD $0.00" readonly>
+          </label>
+        </div>
+
+        <div class="row mt-8">
+          <button id="addCart" class="btn block">Añadir al carrito</button>
+        </div>
+
+        <p class="hint mt-6">
+          Algunos servicios tienen mínimos distintos. Para dudas, escríbenos.
+        </p>
+      </section>
+
+      <!-- Carrito / Pago -->
+      <aside class="card">
+        <div class="row row-between">
+          <h3 class="card-title">Tu carrito</h3>
+          <button id="clearCart" class="btn danger">Vaciar carrito</button>
+        </div>
+
+        <div id="cartList" class="hint mt-4 minh-120">Carrito vacío.</div>
+
+        <!-- Cupón y totales -->
+        <div class="row mt-6">
+          <label class="flex-1">Cupón de descuento
+            <input id="discountCode" type="text" placeholder="Ej: CG10">
+          </label>
+          <button id="applyCoupon" class="btn ghost align-end">Aplicar</button>
+        </div>
+
+        <div class="total-row"><span class="hint">Subtotal:</span><strong id="subtotal">USD $0.00</strong></div>
+        <div class="total-row"><span class="hint">Descuento:</span><strong id="discountRow">- USD $0.00</strong></div>
+        <div class="total-row"><span class="hint">Fee:</span><strong id="feeRow">USD $0.00</strong></div>
+        <div class="total-row"><span class="hint">Total a pagar:</span><strong id="total">USD $0.00</strong></div>
+
+        <hr class="sep">
+
+        <label>Correo para recibir la factura</label>
+        <input id="buyerEmail" type="email" placeholder="cliente@ejemplo.com">
+        <label>Nombre (para factura)</label>
+        <input id="buyerName" type="text" placeholder="Nombre y apellido">
+
+        <label class="row mt-6">
+          <input id="agreeTerms" type="checkbox">
+          <span class="hint">Acepto los <a href="terminos.html" target="_blank" rel="noopener">Términos y Condiciones</a>.</span>
+        </label>
+
+        <div class="row mt-8">
+          <button id="btnPayLink" class="btn">Pagar por PayPal</button>
+          <a id="btnSendReceipt" class="btn ghost" href="#" style="display:none">Enviar comprobante por correo</a>
+        </div>
+
+        <p class="hint mt-6">
+          Después de pagar en PayPal, envía tu <strong>comprobante</strong> por correo.
+        </p>
+
+        <p id="postMsg" class="hint mt-8"></p>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="cg-footer">
+    <small>© <span id="y"></span> Comunidad Galáctica — Todos los derechos reservados.</small>
+  </footer>
+
+  <!-- Modal -->
+  <div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <h3 id="modalTitle">Falta información</h3>
+      <p id="modalMsg">Por favor completa los campos requeridos.</p>
+      <div class="actions"><button id="modalOk" class="btn" autofocus>Aceptar</button></div>
+    </div>
+  </div>
+
+  <!-- JS: SIN CAMBIOS EN LA LÓGICA -->
+  <script>
+    /* Pego aquí tu mismo JS tal como lo enviaste (sin tocar IDs/clases) */
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const API_URL  = 'https://script.google.com/macros/s/AKfycby06L3Lxij5h8_gfKnHosCfEBamnfJ40o-E9oezzrf8zssPxRxSSEgPbsGMBIABKBcK/exec';
+    const PAYPAL_ME = 'https://paypal.me/NexoDigital05/';
+    const NEXO_EMAIL = 'nexodigital05@gmail.com';
+
+    const DISCOUNTS = { 'NEXO10': { type:'percent', value:10 }, 'NEXO5': { type:'fixed', value:5 } };
+    const fmtUSD = n => 'USD $' + Number(n).toFixed(2);
+
+    const PRICING = {
+      instagram: { seguidores:{unit:1000,price:15,min:1000,desc:'Seguidores'}, likes:{unit:1000,price:5,min:1000,desc:'Likes'},
+        likes_reels:{unit:1000,price:5,min:1000,desc:'Likes en Reels'}, comentarios_reels:{unit:1000,price:8,min:1000,desc:'Comentarios en Reels'},
+        guardados:{unit:2000,price:5,min:2000,desc:'Guardados (precio por 2K)'}, compartidos:{unit:2000,price:5,min:2000,desc:'Compartidos (precio por 2K)'},
+        comentarios_o_vistas:{unit:1000,price:10,min:1000,desc:'Comentarios o Vistas'}, stories_views:{unit:1000,price:10,min:1000,desc:'Stories Views'} },
+      tiktok: { compartidos:{unit:1000,price:5,min:1000,desc:'Compartidos'}, seguidores:{unit:1000,price:15,min:1000,desc:'Seguidores'},
+        views:{unit:1000,price:10,min:1000,desc:'Views'}, likes:{unit:1000,price:5,min:1000,desc:'Likes'} },
+      youtube:{ suscriptores:{unit:1000,price:20,min:1000,desc:'Suscriptores'}, comentarios:{unit:1000,price:10,min:1000,desc:'Comentarios'},
+        viewers:{unit:1000,price:25,min:1000,desc:'Viewers'}, likes:{unit:1000,price:10,min:1000,desc:'Likes'}, dislikes:{unit:1000,price:50,min:1000,desc:'Dislikes'} },
+      twitch:{ seguidores:{unit:1000,price:15,min:1000,desc:'Seguidores'}, viewers_per_hour_100:{unit:100,price:10,min:100,desc:'Viewers por hora (paquete de 100)'} },
+      kick:{ seguidores:{unit:1000,price:30,min:1000,desc:'Seguidores'}, viewers_per_100_hrs:{unit:100,price:20,min:100,desc:'Viewers por hora (paquete de 100)'} },
+      amazon:{ review:{flat:60,min:1,desc:'Amazon Review — USD $60 por persona. Solo WhatsApp.'} },
+      discord:{ nitro_trial_3m:{ flat:15,min:60,desc:'Nitro (free trial) 3 meses — USD $15. Solo cuentas NUEVAS o que NUNCA han comprado Nitro.' } },
+      spotify:{ premium_trial_3m:{ flat:20,min:60,desc:'Spotify Premium (free trial) 3 meses — USD $20. Solo cuentas NUEVAS o que NUNCA han tenido Premium.' } }
+    };
+
+    const LABELS = {
+      instagram:{ seguidores:'Seguidores', likes:'Likes', likes_reels:'Likes en Reels', comentarios_reels:'Comentarios en Reels',
+        guardados:'Guardados (2K)', compartidos:'Compartidos (2K)', comentarios_o_vistas:'Comentarios o Vistas', stories_views:'Stories Views' },
+      tiktok:{ compartidos:'Compartidos', seguidores:'Seguidores', views:'Views', likes:'Likes' },
+      youtube:{ suscriptores:'Suscriptores', comentarios:'Comentarios', viewers:'Viewers', likes:'Likes', dislikes:'Dislikes' },
+      twitch:{ seguidores:'Seguidores', viewers_per_hour_100:'Viewers/h (100)' },
+      kick:{ seguidores:'Seguidores', viewers_per_100_hrs:'Viewers/h (100)' },
+      amazon:{ review:'Amazon Review' },
+      discord:{ nitro_trial_3m:'Nitro 3 meses (Free Trial)' },
+      spotify:{ premium_trial_3m:'Spotify Premium 3 meses (Free Trial)' }
+    };
+
+    const $  = (s,ctx=document)=>ctx.querySelector(s);
+    const $$ = (s,ctx=document)=>Array.from(ctx.querySelectorAll(s));
+
+    function setContactField(platform){
+      const contactLabel = $('#contactLabel');
+      const input = $('#profileUrl');
+      if(platform === 'discord'){
+        input.setAttribute('type','text'); input.placeholder = 'usuario#1234 o ID de Discord';
+        contactLabel.textContent = 'Usuario/ID de Discord (requerido)';
+      }else if(platform === 'spotify'){
+        input.setAttribute('type','text'); input.placeholder = 'Correo de tu cuenta Spotify';
+        contactLabel.textContent = 'Correo para recibir soporte (requerido)';
+      }else{
+        input.setAttribute('type','url');
+        const map = {
+          instagram:'https://instagram.com/tu_usuario',
+          tiktok:'https://www.tiktok.com/@tu_usuario',
+          youtube:'https://www.youtube.com/watch?v=link_del_video',
+          twitch:'https://twitch.tv/tu_usuario',
+          kick:'https://kick.com/tu_usuario'
+        };
+        input.placeholder = map[(platform||'').toLowerCase()] || 'https://...';
+        contactLabel.textContent = 'URL del perfil (referencia)';
+      }
+    }
+
+    const modalOverlay = $('#modalOverlay');
+    const modalMsg = $('#modalMsg');
+    const modalOk = $('#modalOk');
+    function showModal(message){ modalMsg.innerHTML = message || 'Completa los campos requeridos.'; modalOverlay.style.display='flex'; modalOk.focus(); }
+    function hideModal(){ modalOverlay.style.display='none'; }
+    modalOk.addEventListener('click', hideModal);
+    modalOverlay.addEventListener('click', e=>{ if(e.target===modalOverlay) hideModal(); });
+    window.addEventListener('keydown', e=>{ if(e.key==='Escape') hideModal(); });
+
+    const platformEl = $('#platform');
+    const servicesWrap = $('#servicesWrap');
+    const qtyEl = $('#quantity');
+    const urlEl = $('#profileUrl');
+    const waEl = $('#waPhone');
+    const labelUrl = $('#labelUrl');
+    const labelWa  = $('#labelWa');
+    const etaEl = $('#etaDays');
+    const pricePreviewEl = $('#pricePreview');
+
+    const addBtn = $('#addCart');
+    const cartList = $('#cartList');
+    const subtotalEl = $('#subtotal');
+    const totalEl = $('#total');
+    const feeRowEl = $('#feeRow');
+    const discountRowEl = $('#discountRow');
+    const clearCartBtn = $('#clearCart');
+
+    const buyerEmail = $('#buyerEmail');
+    const buyerName  = $('#buyerName');
+    const agreeTerms = $('#agreeTerms');
+    const postMsg = $('#postMsg');
+
+    const btnPayLink = $('#btnPayLink');
+    const btnSendReceipt = $('#btnSendReceipt');
+
+    const discountCodeEl = $('#discountCode');
+    const applyCouponBtn = $('#applyCoupon');
+
+    let CART = [];
+    let selectedServiceKey = null;
+    let CURRENT_DISCOUNT = { code:'', amount:0 };
+    let LAST_ORDER = null;
+
+    function calcDiscount(subtotal){
+      const code = (discountCodeEl.value||'').trim().toUpperCase();
+      const rule = DISCOUNTS[code];
+      if(!rule) return { code:'', amount:0 };
+      if(rule.type==='percent') return { code, amount: +(subtotal * (rule.value/100)).toFixed(2) };
+      if(rule.type==='fixed')   return { code, amount: +Number(rule.value||0).toFixed(2) };
+      return { code:'', amount:0 };
+    }
+    function calcFee(amountAfterDiscount){
+      const fee = amountAfterDiscount * 0.054 + 0.30;
+      return +fee.toFixed(2);
+    }
+    function recomputeTotals(){
+      const subtotal = cartTotalUSD();
+      CURRENT_DISCOUNT = calcDiscount(subtotal);
+      const subAfterDisc = Math.max(0, +(subtotal - CURRENT_DISCOUNT.amount).toFixed(2));
+      const fee = calcFee(subAfterDisc);
+      const totalWithFee = +(subAfterDisc + fee).toFixed(2);
+      subtotalEl.textContent = fmtUSD(subtotal);
+      discountRowEl.textContent = '- ' + fmtUSD(CURRENT_DISCOUNT.amount);
+      feeRowEl.textContent = fmtUSD(fee);
+      totalEl.textContent = fmtUSD(totalWithFee);
+      return { subtotal, discountAmount: CURRENT_DISCOUNT.amount, discountCode: CURRENT_DISCOUNT.code, fee, totalWithFee };
+    }
+    applyCouponBtn.addEventListener('click', ()=>{ recomputeTotals(); });
+
+    function buildServiceCards(platform){
+      const map = PRICING[platform]; if(!map) return '';
+      const labels = LABELS[platform] || {};
+      let html = '<div class="services-grid">';
+      Object.entries(map).forEach(([key, cfg])=>{
+        const title = labels[key] || key;
+        const unitTxt = cfg.flat!==undefined ? (fmtUSD(cfg.flat)+' fijo') : `${fmtUSD(cfg.price)} / ${cfg.unit>=1000?(cfg.unit/1000)+'K':cfg.unit}`;
+        const minTxt = cfg.min ? `min ${cfg.min>=1000 ? (cfg.min/1000)+'K' : cfg.min}` : '—';
+        html += `
+          <article class="service-card" data-key="${key}">
+            <div class="svc-title">${title}</div>
+            <div class="hint svc-desc">${cfg.desc||''}</div>
+            <div class="svc-meta mt-6">
+              <span class="price-badge">${unitTxt}</span>
+              <span class="min-badge">${minTxt}</span>
+            </div>
+          </article>`;
+      });
+      html += '</div>'; return html;
+    }
+
+    function attachServiceCardEvents(){
+      $$('.service-card', servicesWrap).forEach(card=>{
+        card.addEventListener('click', ()=>{
+          $$('.service-card', servicesWrap).forEach(c=>c.classList.remove('selected'));
+          card.classList.add('selected');
+          selectedServiceKey = card.dataset.key;
+          const p = platformEl.value;
+          const cfg = PRICING[p][selectedServiceKey];
+          if(cfg){
+            if(p==='amazon'){
+              labelUrl.classList.add('hidden'); labelWa.classList.remove('hidden');
+              qtyEl.min = cfg.min||1; qtyEl.step=1; qtyEl.placeholder='Personas (mínimo 1)';
+              if(!qtyEl.value) qtyEl.value = cfg.min||1;
+            }else{
+              labelUrl.classList.remove('hidden'); labelWa.classList.add('hidden');
+              setContactField(p);
+              qtyEl.min = cfg.min||1000; qtyEl.step= (cfg.flat!==undefined ? 1 : 100);
+              qtyEl.placeholder = (cfg.flat!==undefined ? 'Mínimo 1' : 'Ej: 1000');
+              if(!qtyEl.value) qtyEl.value = cfg.min || (p==='twitch'||p==='kick'?100:1000);
+            }
+            recalc();
+          }
+        });
+      });
+    }
+
+    platformEl.addEventListener('change', ()=>{
+      selectedServiceKey = null;
+      const p = platformEl.value;
+      servicesWrap.innerHTML = p ? buildServiceCards(p) : '';
+      attachServiceCardEvents();
+
+      if(p==='amazon'){
+        labelUrl.classList.add('hidden'); labelWa.classList.remove('hidden');
+        qtyEl.min=1; qtyEl.step=1; qtyEl.placeholder='Personas (mínimo 1)';
+      }else{
+        labelUrl.classList.remove('hidden'); labelWa.classList.add('hidden');
+        setContactField(p);
+        qtyEl.min=(p==='twitch'||p==='kick')?100:1000; qtyEl.step=100;
+        qtyEl.placeholder=(p==='twitch'||p==='kick')?'Mínimo 100':'Ej: 1000';
+        if(p==='discord' || p==='spotify'){ qtyEl.min=1; qtyEl.step=1; qtyEl.placeholder='Mínimo 1'; }
+      }
+
+      qtyEl.value=''; pricePreviewEl.value=fmtUSD(0); etaEl.value='1–7 días';
+    });
+
+    function estimateDays(platform, qty){
+      if(platform==='amazon') return '1–3 días';
+      if(platform==='discord' || platform==='spotify') return '1–2 días';
+      if(platform==='youtube'){ if(qty<=1000) return '2–4 días'; if(qty<=5000) return '4–6 días'; return '6–7 días'; }
+      if(platform==='twitch'||platform==='kick'){ if(qty<=100) return '1–2 días'; if(qty<=1000) return '2–4 días'; return '4–7 días'; }
+      if(qty<=1000) return '1–2 días'; if(qty<=5000) return '3–5 días'; return '5–7 días';
+    }
+    function computePrice(platform, key, qty){
+      const cfg = PRICING[platform]?.[key]; if(!cfg) return {amount:0};
+      if(cfg.flat!==undefined) return {amount:Number(cfg.flat) * 1};
+      return {amount: Number(qty)/cfg.unit * cfg.price};
+    }
+    function need(message){ showModal(message); return false; }
+
+    function validateInputs(forAdd=false){
+      const p = platformEl.value;
+      if(!p) return need('Selecciona una plataforma.');
+      if(!selectedServiceKey) return need('Selecciona un servicio de la lista.');
+      const cfg = PRICING[p][selectedServiceKey];
+      const qty = Number(qtyEl.value||0);
+      const min = cfg.min || ((p==='twitch'||p==='kick') && selectedServiceKey.includes('viewers') ? 100 : (p==='amazon'?1: (p==='discord'||p==='spotify'?1:1000)));
+      if(cfg.flat===undefined && qty < min){ return need(`La cantidad mínima para este servicio es ${min>=1000?(min/1000)+'K':min}.`); }
+
+      if(p==='amazon'){
+        if(!waEl.value.trim()) return need('Ingresa tu número de WhatsApp para Amazon Review.');
+      }else{
+        if(forAdd && !urlEl.value.trim()){
+          let msg = 'Ingresa la URL del perfil (referencia).';
+          if(p==='discord') msg = 'Ingresa tu Usuario/ID de Discord.';
+          if(p==='spotify') msg = 'Ingresa tu correo/usuario de Spotify.';
+          return need(msg);
+        }
+      }
+      return true;
+    }
+
+    function recalc(){
+      if(!selectedServiceKey){ pricePreviewEl.value = fmtUSD(0); return; }
+      const p = platformEl.value;
+      const cfg = PRICING[p][selectedServiceKey];
+      let qty = Number(qtyEl.value||0);
+      if(!qty) qty = cfg?.min || (p==='amazon'||p==='discord'||p==='spotify'?1:(p==='twitch'||p==='kick'?100:1000));
+      const {amount} = computePrice(p, selectedServiceKey, qty);
+      pricePreviewEl.value = fmtUSD(amount * (cfg.flat!==undefined ? qty : 1));
+      etaEl.value = estimateDays(p, qty);
+      return { amount: (cfg.flat!==undefined ? amount*qty : amount), eta: etaEl.value };
+    }
+    $('#quantity').addEventListener('input', ()=>{ if(selectedServiceKey) recalc(); });
+
+    addBtn.addEventListener('click', ()=>{
+      if(!validateInputs(true)) return;
+      const p = platformEl.value;
+      const cfg = PRICING[p][selectedServiceKey];
+      const qty = Number(qtyEl.value||0) || (cfg?.min || 0);
+      const calc = recalc() || { amount:0, eta:'1–7 días' };
+      const title = (LABELS[p]||{})[selectedServiceKey] || selectedServiceKey;
+
+      const item = {
+        platform: p.toUpperCase(),
+        key: selectedServiceKey,
+        title,
+        qty,
+        unit: cfg.flat!==undefined ? '—' : (cfg.unit>=1000 ? (cfg.unit/1000)+'K' : cfg.unit),
+        unitPrice: cfg.flat!==undefined ? null : cfg.price,
+        flat: cfg.flat!==undefined ? cfg.flat : null,
+        price: cfg.flat!==undefined ? cfg.flat : cfg.price,
+        total: calc.amount,
+        url: p==='amazon' ? null : ($('#profileUrl').value.trim() || null),
+        whatsapp: p==='amazon' ? ($('#waPhone').value.trim() || null) : null,
+        eta: calc.eta
+      };
+      CART.push(item);
+      renderCart();
+      $$('.service-card', servicesWrap).forEach(c=>c.classList.remove('selected'));
+      selectedServiceKey = null;
+    });
+
+    function renderCart(){
+      if(CART.length===0){
+        cartList.innerHTML = 'Carrito vacío.';
+        subtotalEl.textContent = fmtUSD(0);
+        discountRowEl.textContent = '- ' + fmtUSD(0);
+        feeRowEl.textContent = fmtUSD(0);
+        totalEl.textContent = fmtUSD(0);
+        btnSendReceipt.style.display = 'none';
+        btnSendReceipt.removeAttribute('href');
+        return;
+      }
+      cartList.innerHTML = '';
+
+      CART.forEach((it, idx)=>{
+        const unitTxt = it.flat!==null ? `Fijo: ${fmtUSD(it.flat)}${it.qty>1?` × ${it.qty}`:''}` : `Unitario: ${fmtUSD(it.unitPrice)} / ${it.unit} · Qty: ${it.qty}`;
+
+        let contactHtml = '';
+        if(it.whatsapp){
+          contactHtml = `<div class="cart-contact">WhatsApp: ${it.whatsapp}</div>`;
+        }else if(it.url){
+          const safe = (it.url+'').replace(/"/g,'&quot;');
+          let label = 'Perfil';
+          if(it.platform==='DISCORD') label = 'Discord';
+          if(it.platform==='SPOTIFY') label = 'Spotify';
+          contactHtml = `<div class="cart-contact">${label}: <span class="cart-url" title="${safe}">${safe}</span></div>`;
+        }
+
+        const line = document.createElement('div');
+        line.className = 'cart-line';
+        line.innerHTML = `
+          <div class="cart-left">
+            <div class="cart-title">${it.platform} — ${it.title}</div>
+            <div class="cart-meta">${unitTxt} · ETA: ${it.eta}</div>
+            ${contactHtml}
+          </div>
+          <div class="cart-right">
+            <div class="cart-amount">${fmtUSD(it.total)}</div>
+            <button class="btn btn-sm ghost" data-idx="${idx}">Quitar</button>
+          </div>
+        `;
+        cartList.appendChild(line);
+      });
+
+      recomputeTotals();
+
+      $$('.btn.ghost[data-idx]', cartList).forEach(b=>{
+        b.addEventListener('click', ()=>{
+          CART.splice(Number(b.dataset.idx),1);
+          renderCart();
+        });
+      });
+    }
+
+    clearCartBtn.addEventListener('click', ()=>{ if(CART.length===0) return; if(confirm('¿Vaciar todo el carrito?')){ CART = []; renderCart(); } });
+
+    function validateCheckout(){
+      if(CART.length===0) return need('Tu carrito está vacío.');
+      if(!buyerEmail.value.trim()) return need('Ingresa tu correo para recibir la factura.');
+      if(!agreeTerms.checked) return need('Debes aceptar los Términos y Condiciones.');
+      return true;
+    }
+    function cartTotalUSD(){ return CART.reduce((s,x)=> s + Number(x.total||0), 0); }
+
+    function buildOrderPayload(payMethod){
+      const items = CART.map(it=>({
+        platform: it.platform, title: `${it.platform} — ${it.title}`, qty: it.qty,
+        price: Number(it.price||0), total: Number(it.total||0),
+        url: it.url || null, whatsapp: it.whatsapp || null,
+        unit: it.unit || null, unitPrice: it.unitPrice || null, flat: it.flat != null ? it.flat : null, eta: it.eta || null
+      }));
+      const calc = recomputeTotals();
+      const orderId = `web-${Date.now()}`;
+
+      const fulfillment = items.map((it,i)=>{
+        const contact = it.whatsapp ? `WhatsApp: ${it.whatsapp}` : (it.url ? `Contacto: ${it.url}` : '—');
+        const isDiscord = it.platform === 'DISCORD';
+        const isSpotify = it.platform === 'SPOTIFY';
+        const legend = isDiscord
+          ? ' (Elegibilidad: cuenta NUEVA o que NUNCA ha comprado Nitro)'
+          : (isSpotify ? ' (Elegibilidad: cuenta NUEVA o que NUNCA ha tenido Premium)' : '');
+        return `${i+1}) ${it.title} · Cant: ${it.qty} · ${contact}${legend}`;
+      }).join('\n');
+
+      return {
+        id: orderId, orderId,
+        customer: { email: (buyerEmail.value||'').trim(), name: (buyerName.value||'').trim() || (buyerEmail.value||'').trim() },
+        items,
+        subtotal: calc.subtotal, tax: 0, discount: calc.discountAmount, discountCode: calc.discountCode || '',
+        fee: calc.fee, total: calc.totalWithFee,
+        payment: { method: payMethod, status: 'pendiente' },
+        notes: '', meta: { site: location.href },
+        notify: { adminEmail: NEXO_EMAIL, fulfillment },
+      };
+    }
+
+    async function sendToApi(payload){
+      const params = new URLSearchParams();
+      params.set('data', JSON.stringify(payload));
+      params.set('_ua', navigator.userAgent);
+      const res = await fetch(API_URL, {
+        method:'POST', headers:{ 'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8' }, body: params
+      });
+      const text = await res.text();
+      let json; try{ json = JSON.parse(text); }catch{ throw new Error('Respuesta no JSON: ' + text.slice(0,120)); }
+      if(!json.ok) throw new Error(json.error || 'Error en API');
+      return json;
+    }
+
+    function disableActions(disabled){
+      [btnPayLink, clearCartBtn, addBtn, applyCouponBtn].forEach(b=> b && (b.disabled = !!disabled));
+    }
+
+    btnPayLink.addEventListener('click', async ()=>{
+      if(!validateCheckout()) return;
+      try{
+        disableActions(true); postMsg.textContent = 'Creando orden…';
+        const payload = buildOrderPayload('PAYPAL');
+        const apiRes = await sendToApi({ ...payload, action: 'createOrder' });
+        LAST_ORDER = { ...payload, invoiceNumber: apiRes.invoiceNumber || '' };
+
+        const amount = payload.total.toFixed(2);
+        postMsg.textContent = `Orden creada (${payload.orderId}). Abre PayPal y paga USD $${amount}. Luego envía tu comprobante por correo.`;
+        window.open(PAYPAL_ME + amount, '_blank');
+
+        const subject = encodeURIComponent(`Comprobante de pago — Orden ${payload.orderId}`);
+        const itemsLines = payload.items.map((it,i)=>{
+          const contact = it.whatsapp ? `WhatsApp: ${it.whatsapp}` : (it.url ? `Contacto: ${it.url}` : '');
+          const isDiscord = it.platform === 'DISCORD';
+          const isSpotify = it.platform === 'SPOTIFY';
+          const legend = isDiscord ? ' (Elegibilidad: cuenta NUEVA o que NUNCA ha comprado Nitro)' :
+                         (isSpotify ? ' (Elegibilidad: cuenta NUEVA o que NUNCA ha tenido Premium)' : '');
+          return `${i+1}) ${it.title} · Cant: ${it.qty} · Total: USD $${Number(it.total).toFixed(2)}${contact?` · ${contact}`:''}${legend}`;
+        }).join('%0A');
+
+        const body = encodeURIComponent(
+`Hola,
+
+Adjunto el comprobante de mi pago en PayPal.
+
+Datos:
+- Orden: ${payload.orderId}
+- Cliente: ${payload.customer.name} (${payload.customer.email})
+- Total pagado: USD $${amount}
+- Cupón: ${payload.discountCode || '—'}
+- Descuento: USD $${payload.discount.toFixed(2)}
+- Fee PayPal: USD $${payload.fee.toFixed(2)}
+
+Servicios:
+${decodeURIComponent(itemsLines)}
+
+¡Gracias!`
+        );
+
+        btnSendReceipt.href = `mailto:${NEXO_EMAIL}?subject=${subject}&body=${body}`;
+        btnSendReceipt.style.display = 'inline-flex';
+        btnSendReceipt.setAttribute('target','_blank');
+      }catch(err){
+        showModal('No pudimos crear la orden: ' + (err.message || err));
+      }finally{
+        disableActions(false);
+      }
+    });
+
+    renderCart();
+  </script>
+</body>
+</html>
