@@ -1,145 +1,247 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comunidad Galactica | HOME</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Comunidad Galáctica | Home</title>
+
+  <!-- SEO básico -->
+  <meta name="description" content="Comunidad Galáctica: videojuegos, desarrollo de apps y scripts, eventos, bots y una comunidad activa en Discord." />
+  <link rel="canonical" href="https://tu-dominio-ejemplo.com/" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Comunidad Galáctica" />
+  <meta property="og:description" content="Únete a una comunidad activa de videojuegos y desarrollo." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://tu-dominio-ejemplo.com/og-image.jpg" />
+  <meta property="og:url" content="https://tu-dominio-ejemplo.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicons (opcional) -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Accesibilidad: indicador visual de foco si no lo tienes en tu CSS */
+    :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+    /* Ejemplo de estilo mínimo para .visually-hidden */
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  </style>
 </head>
 <body>
-    <div class="bg-video"></div>
+  <a href="#home" class="visually-hidden">Saltar al contenido</a>
 
-    <nav> 
-        <div class="nav-links">
-            <a href="#home">Inicio</a>
-            <a href="#features">Info</a>
-            <a href="#staff">Staff</a>
-            <a href="#discord">Discord</a>
-        </div>
+  <!-- Fondo de video: usa imagen de respaldo si el video no se puede cargar -->
+  <div class="bg-video" aria-hidden="true"></div>
+
+  <header>
+    <nav aria-label="Principal">
+      <div class="nav-links">
+        <a href="#home" aria-current="page">Inicio</a>
+        <a href="#discord">Discord</a>
+        <a href="#features">Info</a>
+        <a href="tienda.html">Tienda</a>
+        <a href="#staff">Staff</a>
+      </div>
     </nav>
+  </header>
 
-    <section class="hero" id="home">
-        <h1>Comunidad Galactica</h1>
-        
-        <div class="server-status">
-            <!-- ✅ Online Members (API) -->
-            <div class="status-item">
-                <div class="number" id="players">Cargando...</div>
-                <div class="label"><span class="online-indicator"></span>ONLINE</div>
-            </div>
+  <main id="home" class="hero">
+    <h1>Comunidad Galáctica</h1>
 
-            <!-- ✅ Total Members (API) -->
-            <div class="status-item">
-                <div class="number" id="totalMembers">Cargando...</div>
-                <div class="label">MIEMBROS</div>
-            </div>
+    <section class="server-status" aria-labelledby="serverStatusHeading">
+      <h2 id="serverStatusHeading" class="visually-hidden">Estado del servidor</h2>
 
-            <!-- ✅ Active Bots (API) -->
-            <div class="status-item">
-                <div class="number" id="bots">Cargando...</div>
-                <div class="label">BOTS ACTIVOS</div>
-            </div>
-        </div>
+      <!-- Cada bloque anuncia cambios para lectores de pantalla -->
+      <div class="status-item">
+        <div class="number" id="players" aria-live="polite">Cargando…</div>
+        <div class="label"><span class="online-indicator" aria-hidden="true"></span>ONLINE</div>
+      </div>
 
-        <a href="https://discord.gg/Txyj9HMVVt" target="_blank" class="cta-button">UNETE A DISCORD</a>
+      <div class="status-item">
+        <div class="number" id="totalMembers" aria-live="polite">Cargando…</div>
+        <div class="label">MIEMBROS</div>
+      </div>
+
+      <div class="status-item">
+        <div class="number" id="bots" aria-live="polite">Cargando…</div>
+        <div class="label">BOTS ACTIVOS</div>
+      </div>
     </section>
 
-    <section id="features">
-        <h2>Unete a esta gran familia.</h2>
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">🌌</div>
-                <h3>Amplia comunidad.</h3>
-                <p>Miembros de diferentes parte de la galaxia que comparten la misma pasion por los videojuego, desarrollo de apps y scripts, y muchos momentos de diversion.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎮</div>
-                <h3>Gran variedad de juegos.</h3>
-                <p>Desde Minecraft hasta GTA V, ofrecemos una amplia gama de juegos para todos los gustos.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3>Bots personalidos.</h3>
-                <p>Contamos con una variedad de bots creados por la comunidad galactica para mejorar tu experiencia en el servidor.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
-                <h3>Staff 24/7</h3>
-                <p>Un equipo de moderadores y administradores siempre disponible para ayudar y garantizar un ambiente seguro.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎖️</div>
-                <h3>Premios por actividad.</h3>
-                <p>Premios para los miembros más activos de la comunidad.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📹</div>
-                <h3>Incentivos para streamers</h3>
-                <p>Ofrecemos beneficios exclusivos para streamers que deseen compartir su contenido en nuestra comunidad.</p>
-            </div>
-        </div>
-    </section>
+    <p id="discord" class="visually-hidden">Sección con el enlace a Discord</p>
+    <p>
+      <a href="https://discord.gg/Txyj9HMVVt" target="_blank" rel="noopener noreferrer" class="cta-button">
+        ÚNETE A DISCORD
+      </a>
+    </p>
+  </main>
 
-    <section id="staff">
-        <h2>PRONTO...</h2>
-        <div class="staff-grid">
-            <div class="card">
-        <div class="card-info">
-            <p class="title">Explorador Estelar</p>
-        </div>
-        </div>
-                <div class="card">
-        <div class="card-info">
-            <p class="title">Comandante Cosmico</p>
-        </div>
-        </div>
-                <div class="card">
-        <div class="card-info">
-            <p class="title">Legado Galactico</p>
-        </div>
-        </div>
-        
-            </div>
-        </div>
-    </section>
+  <section id="features" aria-labelledby="featuresHeading">
+    <h2 id="featuresHeading">Únete a esta gran familia</h2>
+    <div class="features" role="list">
+      <article class="feature-card" role="listitem">
+        <div class="feature-icon" aria-hidden="true">🌌</div>
+        <h3>Amplia comunidad</h3>
+        <p>Miembros de diferentes partes de la galaxia que comparten la misma pasión por los videojuegos, el desarrollo de apps y scripts, y muchos momentos de diversión.</p>
+      </article>
 
-    <footer>
-        <p>&copy; 2025 Comunidad Galactica. Todos los derechos reservados.</p>
-        <p style="margin-top: 10px; color: #666;">No estamos afiliado a ninguno de los juegos presentados en la comunidad.</p>
-    </footer>
+      <article class="feature-card" role="listitem">
+        <div class="feature-icon" aria-hidden="true">🎮</div>
+        <h3>Gran variedad de juegos</h3>
+        <p>Desde Minecraft hasta GTA V, ofrecemos una amplia gama de juegos para todos los gustos.</p>
+      </article>
 
-    <!-- ===== Script integrado ===== -->
-    <script>
-        const BOT_API_URL = 'https://cg-galactusbot.onrender.com/api/stats';
+      <article class="feature-card" role="listitem">
+        <div class="feature-icon" aria-hidden="true">🤖</div>
+        <h3>Bots personalizados</h3>
+        <p>Contamos con bots creados por la comunidad para mejorar tu experiencia en el servidor.</p>
+      </article>
 
-        async function fetchDiscordStats() {
-            try {
-                const response = await fetch(BOT_API_URL);
-                if (!response.ok) throw new Error('Failed to fetch stats');
-                const data = await response.json();
+      <article class="feature-card" role="listitem">
+        <div class="feature-icon" aria-hidden="true">🛡️</div>
+        <h3>Staff 24/7</h3>
+        <p>Un equipo de moderadores y administradores disponible para ayudar y garantizar un ambiente seguro.</p>
+      </article>
 
-                document.getElementById('players').textContent = data.onlineMembers || 0;
-                document.getElementById('totalMembers').textContent = data.totalMembers || 0;
-                document.getElementById('bots').textContent = data.activeBots || 0;
-            } catch (error) {
-                console.error('Error fetching Discord stats:', error);
-                document.getElementById('players').textContent = '-';
-                document.getElementById('totalMembers').textContent = '-';
-                document.getElementById('bots').textContent = '-';
-            }
+      <article class="feature-card" role="listitem">
+        <div class="feature-icon" aria-hidden="true">🎖️</div>
+        <h3>Premios por actividad</h3>
+        <p>Reconocimientos para los miembros más activos de la comunidad.</p>
+      </article>
+
+      <article class="feature-card" role="listitem">
+        <div class="feature-icon" aria-hidden="true">📹</div>
+        <h3>Incentivos para streamers</h3>
+        <p>Beneficios exclusivos para quienes compartan su contenido en la comunidad.</p>
+      </article>
+    </div>
+  </section>
+
+<section id="staff" aria-labelledby="staffHeading">
+  <h2 id="staffHeading">Nuestro Staff</h2>
+
+  <div class="staff-grid" role="list">
+    <!-- Miembro 1 -->
+    <a href="https://discordapp.com/users/707991177953017967" target="_blank" rel="noopener" class="staff-link" role="listitem">
+      <figure class="staff-card">
+        <img src="img/137524454.jpg" alt="Retrato de Explorador Estelar" loading="lazy" />
+        <figcaption>
+          <span class="staff-name">Cheryzada</span>
+          <span class="staff-role">Owner</span>
+        </figcaption>
+      </figure>
+    </a>
+
+    <!-- Miembro 2 -->
+    <a href="https://discordapp.com/users/231624650319200258" target="_blank" rel="noopener" class="staff-link" role="listitem">
+      <figure class="staff-card">
+        <img src="img/141868039.jpg" alt="Retrato de Comandante Cósmico" loading="lazy" /> 
+        <figcaption>
+          <span class="staff-name">Code Frszh</span>
+          <span class="staff-role">Developer</span>
+        </figcaption>
+      </figure>
+    </a>
+
+    <!-- Miembro 3 -->
+    <a href="https://discordapp.com/users/794004724344946719" target="_blank" rel="noopener" class="staff-link" role="listitem">
+      <figure class="staff-card">
+        <img src="img/3202.png" alt="Retrato de Legado Galáctico" loading="lazy" />
+        <figcaption>
+          <span class="staff-name">Durant</span>
+          <span class="staff-role">Staff</span>
+        </figcaption>
+      </figure>
+    </a>
+  </div>
+</section>
+
+
+
+  <footer>
+    <p>&copy; 2025 Comunidad Galáctica. Todos los derechos reservados.</p>
+    <p style="margin-top: 10px; color: #666;">No estamos afiliados a ninguno de los juegos presentados en la comunidad.</p>
+  </footer>
+
+  <script>
+    // ========= Config =========
+    const BOT_API_URL = 'https://cg-galactusbot.onrender.com/api/stats';
+    const REFRESH_MS = 15000;
+    const FETCH_TIMEOUT_MS = 5000;
+
+    // ========= Utilidades =========
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = String(value);
+    }
+
+    function isReducedMotion() {
+      return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
+    // ========= Fetch robusto con timeout y reintentos exponenciales =========
+    async function fetchWithTimeout(resource, options = {}) {
+      const { timeout = FETCH_TIMEOUT_MS, signal } = options;
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      try {
+        const resp = await fetch(resource, { ...options, signal: signal || controller.signal });
+        return resp;
+      } finally {
+        clearTimeout(id);
+      }
+    }
+
+    async function getStats({ retries = 2, backoffMs = 800 } = {}) {
+      try {
+        const response = await fetchWithTimeout(BOT_API_URL, { timeout: FETCH_TIMEOUT_MS });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+
+        // Validación mínima del contenido
+        const data = await response.json();
+        const onlineMembers = Number.isFinite(Number(data.onlineMembers)) ? Number(data.onlineMembers) : 0;
+        const totalMembers  = Number.isFinite(Number(data.totalMembers))  ? Number(data.totalMembers)  : 0;
+        const activeBots    = Number.isFinite(Number(data.activeBots))    ? Number(data.activeBots)    : 0;
+
+        setText('players', onlineMembers);
+        setText('totalMembers', totalMembers);
+        setText('bots', activeBots);
+      } catch (err) {
+        console.error('Error fetching Discord stats:', err);
+        setText('players', '-');
+        setText('totalMembers', '-');
+        setText('bots', '-');
+
+        if (retries > 0) {
+          await new Promise(r => setTimeout(r, backoffMs));
+          return getStats({ retries: retries - 1, backoffMs: backoffMs * 2 });
         }
+      }
+    }
 
-        fetchDiscordStats();
-        setInterval(fetchDiscordStats, 15000); // refrescar cada 15s
+    // ========= Scroll suave respetando prefers-reduced-motion =========
+    function setupSmoothScroll() {
+      document.addEventListener('click', (e) => {
+        const a = e.target.closest('a[href^="#"]');
+        if (!a) return;
+        const hash = a.getAttribute('href');
+        if (!hash || hash === '#') return;
+        const target = document.querySelector(hash);
+        if (!target) return;
 
-        // Smooth scroll navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-    </script>
+        e.preventDefault();
+        const behavior = isReducedMotion() ? 'auto' : 'smooth';
+        target.scrollIntoView({ behavior });
+        // Actualiza aria-current para navegación
+        document.querySelectorAll('nav a[aria-current="page"]').forEach(el => el.removeAttribute('aria-current'));
+        a.setAttribute('aria-current', 'page');
+      });
+    }
+
+    // ========= Init =========
+    getStats();
+    setInterval(getStats, REFRESH_MS);
+    setupSmoothScroll();
+  </script>
 </body>
 </html>
