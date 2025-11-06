@@ -1,145 +1,245 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comunidad Galactica | HOME</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="bg-video"></div>
+/* ========== Reset base ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    <nav> 
-        <div class="nav-links">
-            <a href="#home">Inicio</a>
-            <a href="#features">Info</a>
-            <a href="#staff">Staff</a>
-            <a href="#discord">Discord</a>
-        </div>
-    </nav>
+:root {
+  /* Paleta y tokens */
+  --bg: #000000;
+  --text: #ffffff;
+  --muted: #aaaaaa;
+  --muted-2: #888888;
 
-    <section class="hero" id="home">
-        <h1>Comunidad Galactica</h1>
-        
-        <div class="server-status">
-            <!-- ✅ Online Members (API) -->
-            <div class="status-item">
-                <div class="number" id="players">Cargando...</div>
-                <div class="label"><span class="online-indicator"></span>ONLINE</div>
-            </div>
+  --grad-a: #8b45ff;
+  --grad-b: #ff6b6b;
 
-            <!-- ✅ Total Members (API) -->
-            <div class="status-item">
-                <div class="number" id="totalMembers">Cargando...</div>
-                <div class="label">MIEMBROS</div>
-            </div>
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
 
-            <!-- ✅ Active Bots (API) -->
-            <div class="status-item">
-                <div class="number" id="bots">Cargando...</div>
-                <div class="label">BOTS ACTIVOS</div>
-            </div>
-        </div>
+  --ring: #d9b0ff;
+  --ring-soft: rgba(191, 123, 255, 0.78);
 
-        <a href="https://discord.gg/Txyj9HMVVt" target="_blank" class="cta-button">UNETE A DISCORD</a>
-    </section>
+  /* Tipografía fluida: ajusta si lo ves grande/pequeño */
+  --fs-h1: clamp(2.25rem, 1.5rem + 3vw, 4.5rem);
+  --fs-h2: clamp(1.5rem, 1.1rem + 2vw, 3rem);
+  --fs-p: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
 
-    <section id="features">
-        <h2>Unete a esta gran familia.</h2>
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">🌌</div>
-                <h3>Amplia comunidad.</h3>
-                <p>Miembros de diferentes parte de la galaxia que comparten la misma pasion por los videojuego, desarrollo de apps y scripts, y muchos momentos de diversion.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎮</div>
-                <h3>Gran variedad de juegos.</h3>
-                <p>Desde Minecraft hasta GTA V, ofrecemos una amplia gama de juegos para todos los gustos.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3>Bots personalidos.</h3>
-                <p>Contamos con una variedad de bots creados por la comunidad galactica para mejorar tu experiencia en el servidor.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
-                <h3>Staff 24/7</h3>
-                <p>Un equipo de moderadores y administradores siempre disponible para ayudar y garantizar un ambiente seguro.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎖️</div>
-                <h3>Premios por actividad.</h3>
-                <p>Premios para los miembros más activos de la comunidad.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📹</div>
-                <h3>Incentivos para streamers</h3>
-                <p>Ofrecemos beneficios exclusivos para streamers que deseen compartir su contenido en nuestra comunidad.</p>
-            </div>
-        </div>
-    </section>
+  /* Layout */
+  --container: 1200px;
+  --section-pad: clamp(60px, 6vw, 100px) clamp(20px, 5vw, 50px);
 
-    <section id="staff">
-        <h2>PRONTO...</h2>
-        <div class="staff-grid">
-            <div class="card">
-        <div class="card-info">
-            <p class="title">Explorador Estelar</p>
-        </div>
-        </div>
-                <div class="card">
-        <div class="card-info">
-            <p class="title">Comandante Cosmico</p>
-        </div>
-        </div>
-                <div class="card">
-        <div class="card-info">
-            <p class="title">Legado Galactico</p>
-        </div>
-        </div>
-        
-            </div>
-        </div>
-    </section>
+  /* Nav */
+  --nav-h: 72px;
 
-    <footer>
-        <p>&copy; 2025 Comunidad Galactica. Todos los derechos reservados.</p>
-        <p style="margin-top: 10px; color: #666;">No estamos afiliado a ninguno de los juegos presentados en la comunidad.</p>
-    </footer>
+  /* Animación */
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
 
-    <!-- ===== Script integrado ===== -->
-    <script>
-        const BOT_API_URL = 'https://cg-galactusbot.onrender.com/api/stats';
 
-        async function fetchDiscordStats() {
-            try {
-                const response = await fetch(BOT_API_URL);
-                if (!response.ok) throw new Error('Failed to fetch stats');
-                const data = await response.json();
 
-                document.getElementById('players').textContent = data.onlineMembers || 0;
-                document.getElementById('totalMembers').textContent = data.totalMembers || 0;
-                document.getElementById('bots').textContent = data.activeBots || 0;
-            } catch (error) {
-                console.error('Error fetching Discord stats:', error);
-                document.getElementById('players').textContent = '-';
-                document.getElementById('totalMembers').textContent = '-';
-                document.getElementById('bots').textContent = '-';
-            }
-        }
+/* Header / Nav local */
+.cg-header{
+  position:sticky; top:0; z-index:1000;
+  background: rgba(10,10,10,0.8);
+  border-bottom:1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+}
+.cg-nav{
+  max-width:var(--container); margin:auto;
+  height:var(--nav-h); padding:0 clamp(16px,4vw,40px);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.cg-brand{ display:flex; align-items:center; gap:.6rem; text-decoration:none; color:#fff; }
+.cg-brand-icon{
+  display:inline-grid; place-items:center;
+  width:34px; height:34px; border-radius:10px; color:#000;
+  background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+  font-weight:900;
+}
+.cg-brand-text{
+  font-weight:800;
+  background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  text-shadow: 0 0 30px rgba(139,69,255,.35);
+}
+.cg-menu{ display:flex; gap: clamp(12px, 2.5vw, 28px); }
+.cg-menu a{
+  color:#fff; text-decoration:none; position:relative; padding-block:6px;
+}
+.cg-menu a::after{
+  content:""; position:absolute; left:0; bottom:-6px; height:2px; width:0;
+  background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+  transition: width .25s var(--ease);
+}
+.cg-menu a:hover::after{ width:100%; }
 
-        fetchDiscordStats();
-        setInterval(fetchDiscordStats, 15000); // refrescar cada 15s
+.cg-container{
+  max-width:var(--container); margin:auto;
+  padding: clamp(28px, 4vw, 40px);
+  padding-top: calc(24px + 0px);
+}
 
-        // Smooth scroll navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-    </script>
-</body>
-</html>
+.cg-title{
+  font-size: clamp(1.8rem, 1.4rem + 1.2vw, 2.4rem);
+  margin: .2rem 0 .6rem;
+  background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+.hint{ color: var(--muted); }
+
+/* Grid layout */
+.grid{
+  display:grid;
+  grid-template-columns: 1fr 380px;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+@media (max-width: 980px){ .grid{ grid-template-columns:1fr; } }
+
+/* Card vidrio */
+.card{
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+.card-title{
+  background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+/* Formularios */
+label{ display:block; margin:.6rem 0; color:var(--muted); font-size:.95rem; }
+select, input, textarea{
+  width:100%; padding:.7rem; border-radius:12px;
+  border:1px solid var(--glass-border);
+  background:#0a0a0a; color:#fff;
+}
+select:focus, input:focus, textarea:focus{
+  outline:2px solid rgba(139,69,255,.45);
+  border-color:transparent;
+}
+
+/* Utilidades */
+.row{ display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; }
+.row-between{ justify-content:space-between; }
+.flex-1{ flex:1 1 auto; }
+.align-end{ align-self:flex-end; }
+.mt-4{ margin-top:.4rem; } .mt-6{ margin-top:.6rem; } .mt-8{ margin-top:.8rem; }
+.minh-120{ min-height:120px; }
+.hidden{ display:none; }
+
+/* Botones */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.4rem;
+  padding:.75rem 1rem; border-radius:12px; border:1px solid transparent;
+  color:#fff; cursor:pointer; font-weight:800;
+  background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+  box-shadow: 0 10px 28px rgba(139,69,255,.35);
+  transition: transform .15s var(--ease), opacity .2s var(--ease);
+}
+.btn:hover{ transform: translateY(-1px); }
+.btn:active{ transform: translateY(0); opacity:.9; }
+.btn.ghost{
+  background: transparent;
+  border:1px solid var(--glass-border);
+  box-shadow:none;
+}
+.btn.danger{
+  background: transparent;
+  border:1px solid rgba(255, 80, 80, .8);
+}
+.btn.block{ width:100%; }
+.btn-sm{ padding:.35rem .6rem; }
+
+/* Listado de servicios */
+.services-grid{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap:.8rem;
+}
+.service-card{
+  position:relative; padding:1rem; border-radius:14px;
+  border:1px solid var(--glass-border); background: rgba(255,255,255,.03);
+  cursor:pointer;
+  transition: transform .15s var(--ease), border-color .15s var(--ease), box-shadow .15s var(--ease);
+}
+.service-card:hover{ transform: translateY(-2px); box-shadow: var(--shadow); }
+.service-card.selected{
+  border-color: rgba(139,69,255,.6);
+  box-shadow: 0 0 0 2px rgba(139,69,255,.35) inset, var(--shadow);
+}
+.svc-title{ font-weight:800; margin-bottom:.2rem; color:#fff; }
+.svc-desc{ min-height:34px; color:var(--muted); }
+.svc-meta{ display:flex; justify-content:space-between; align-items:center; font-size:.9rem; color:var(--muted-2); }
+.price-badge, .min-badge{ padding:.2rem .5rem; border-radius:999px; border:1px solid var(--glass-border); }
+.price-badge{ background: rgba(139,69,255,.18); border-color: rgba(139,69,255,.35); color:#e8d9ff; }
+.min-badge{ background: rgba(255,107,107,.15); border-color: rgba(255,107,107,.35); color:#ffd7d7; }
+
+/* Cálculos */
+.calc-grid{ display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+.calc-out{ display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-top:.6rem; }
+.price-big{ font-weight:900; font-size:1.05rem; color:#e7dcff; }
+
+/* Carrito */
+.cart-line{
+  display:grid; grid-template-columns: 1fr auto;
+  align-items:flex-start; gap:.8rem; padding:.6rem 0;
+  border-bottom:1px dashed var(--glass-border);
+}
+.cart-line:last-child{ border-bottom:none; }
+.cart-left{ min-width:0; }
+.cart-title{
+  font-weight:800;
+  background: linear-gradient(135deg, var(--grad-a), var(--grad-b));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.cart-meta{ font-size:.9rem; color:var(--muted); margin-top:.15rem; }
+.cart-contact{ margin-top:.25rem; color:var(--muted); font-size:.85rem; }
+.cart-url{ overflow-wrap:anywhere; word-break:break-word; }
+
+.cart-right{ display:flex; flex-direction:column; align-items:flex-end; gap:.35rem; flex:0 0 auto; min-width:max-content; }
+.cart-amount{ font-weight:900; }
+
+@media (max-width:420px){
+  .cart-right{ align-items:stretch; }
+  .cart-right .btn{ width:100%; }
+}
+
+/* Totales y separador */
+.total-row{ display:flex; justify-content:space-between; margin-top:.6rem; }
+.sep{ margin:1rem 0; border:0; border-top:1px solid var(--glass-border); }
+
+/* Footer local */
+.cg-footer{
+  text-align:center;
+  padding: 30px;
+  background: var(--glass-bg);
+  border-top: 1px solid var(--glass-border);
+  color: var(--muted);
+}
+
+/* Modal */
+.modal-overlay{
+  position:fixed; inset:0; z-index:60;
+  background:rgba(0,0,0,.6); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  display:none; align-items:center; justify-content:center;
+}
+.modal{
+  width:min(520px,92vw);
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  border:1px solid var(--glass-border);
+  border-radius:16px; box-shadow:var(--shadow);
+  padding:1.2rem; text-align:center; color:#e8f0ff;
+}
+.modal p{ color:#9fb6d6; margin:.3rem 0 .8rem; }
+.modal .actions{ display:flex; justify-content:center; }
+
+/* Accesibilidad */
+:focus-visible{ outline:2px solid #fff; outline-offset:4px; }
+@media (prefers-reduced-motion: reduce){
+  .btn, .service-card{ transition:none !important; }
+}
